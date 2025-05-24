@@ -1,0 +1,569 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kodeka Digital - Clone</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Libre+Caslon+Text:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+  <link href="output.css" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    .font-caslon-italic { font-family: 'Libre Caslon Text', serif; font-style: italic; font-weight: 400; }
+    .glass-navbar {
+      position: fixed;
+      top: 16px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: auto;
+      max-width: 90%;
+      z-index: 50;
+      background: rgba(30, 30, 40, 0.6);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      box-shadow: 0 4px 24px 0 rgba(0,0,0,0.12);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 50px;
+      display: flex;
+      justify-content: center;
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .site-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+      background-color: rgba(10, 10, 15, 0.8);
+      border-radius: 12px;
+      box-shadow: 0 4px 24px 0 rgba(0,0,0,0.2);
+      overflow: hidden;
+    }
+    @media (max-width: 1240px) {
+      .site-container {
+        max-width: 95%;
+      }
+    }
+  </style>
+  <!-- Stagewise Toolbar (DEV ONLY) -->
+  <script>
+    // Define a global development flag - set to false for production builds
+    window.IS_DEVELOPMENT = true;
+    
+    // You can also check the environment variable if using a build process
+    if (typeof process !== 'undefined' && process.env && process.env.NODE_ENV === 'production') {
+      window.IS_DEVELOPMENT = false;
+    }
+  </script>
+  <!-- Only load stagewise in development mode -->
+  <script>
+    if (window.IS_DEVELOPMENT) {
+      // Dynamically load the stagewise toolbar script
+      const stagewiseScript = document.createElement('script');
+      stagewiseScript.src = 'https://cdn.jsdelivr.net/npm/@stagewise/toolbar@latest/dist/index.js';
+      stagewiseScript.onload = function() {
+        // Load our initialization script after the toolbar is loaded
+        const initScript = document.createElement('script');
+        initScript.src = 'stagewise-toolbar.js';
+        document.head.appendChild(initScript);
+      };
+      document.head.appendChild(stagewiseScript);
+    }
+  </script>
+</head>
+<body class="bg-black text-white dark:bg-black dark:text-white min-h-screen antialiased">
+  <div class="py-8"> <!-- Top spacing -->
+  
+  <!-- Floating navbar on scroll -->
+  <nav id="main-navbar" class="glass-navbar">
+    <div class="flex justify-center items-center py-3 px-8 mx-auto transition-all duration-300 gap-20">
+      <span class="h-10 w-10 flex items-center">
+        <!-- Inline SVG logo, forced to white -->
+        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 318 350" class="text-white fill-white"><g><path d="M34.626,1.506c13.211,-3.418 27.978,-0.99 39.107,7.004c10.332,7.068 17.593,18.493 19.611,30.856c1.144,6.349 0.758,12.813 0.797,19.226c-0.039,16.269 -0.116,32.539 -0.077,48.809c0.09,6.811 -1.671,13.828 -5.912,19.264c-4.549,5.783 -10.127,10.615 -15.254,15.846c-11.335,11.36 -22.927,22.451 -34.493,33.58c-3.265,3.059 -6.619,6.272 -10.885,7.878c-8.508,3.239 -18.93,0.129 -24.264,-7.235c-2.634,-3.663 -3.213,-8.289 -3.135,-12.684c-0.026,-36.01 -0.129,-72.019 -0.09,-108.042c0.051,-7.273 -0.502,-14.727 1.567,-21.808c4.216,-15.73 17.401,-28.453 33.028,-32.694Z" fill="white"/><path d="M186.131,34.894c40.52,-0.604 81.079,0.064 121.612,-0.026c2.943,0.206 6.837,-0.745 8.584,2.365c2.918,3.572 -0.09,7.865 -2.853,10.409c-35.431,36.1 -71.659,71.415 -107.321,107.283c-9.33,8.688 -17.786,18.3 -27.489,26.577c-7.467,6.387 -19.187,3.688 -25.51,-3.033c-14.393,-14.278 -29.198,-28.183 -43.193,-42.834c-7.107,-6.888 -7.017,-18.93 -0.861,-26.358c4.408,-5.449 9.754,-10.011 14.689,-14.946c18.943,-18.75 37.898,-37.474 57.124,-55.916c1.632,-1.272 3.136,-3.02 5.218,-3.521Z" fill="white"/><path d="M12.612,197.939c7.672,-2.622 16.604,-0.81 22.67,4.549c15.768,14.65 30.92,29.982 46.406,44.928c7.865,7.3 12.479,17.735 12.928,28.427c0.283,8.135 -0.077,16.283 -0.27,24.431c-0.257,14.817 -6.759,29.853 -18.75,38.913c-15.434,12.543 -39.132,13.327 -55.337,1.774c-12.518,-8.919 -20.601,-24.122 -20.126,-39.582c-0.038,-29.057 -0.077,-58.127 -0.025,-87.184c-0.592,-7.672 5.834,-13.763 12.504,-16.256Z" fill="white"/><path d="M162.613,197.54c7.428,-2.365 15.203,0.887 20.318,6.374c42.242,41.279 83.379,83.688 125.583,125.031c2.789,2.789 5.834,5.372 8.16,8.585c2.365,4.279 -1.323,10.371 -6.297,9.844c-34.3,0.372 -68.6,0.115 -102.9,0.27c-6.387,-0.103 -12.8,0.167 -19.162,-0.463c-2.274,0.013 -3.919,-1.632 -5.526,-2.969c-9.266,-8.302 -17.606,-17.542 -26.641,-26.075c-14.252,-14.021 -28.581,-27.952 -42.936,-41.857c-4.948,-4.87 -9.06,-11.412 -8.289,-18.621c0.54,-7.801 6.387,-13.61 11.605,-18.815c9.831,-9.497 19.598,-19.045 29.519,-28.453c5.025,-4.806 9.716,-10.628 16.566,-12.851Z" fill="white"/></g></svg>
+      </span>
+      <ul class="flex space-x-8 text-sm text-gray-300 font-medium">
+        <li><a href="#features" class="hover:text-white transition">Features</a></li>
+        <li><a href="#process" class="hover:text-white transition">Process</a></li>
+        <li><a href="#work" class="hover:text-white transition">Work</a></li>
+        <li><a href="#pricing" class="hover:text-white transition">Pricing</a></li>
+        <li><a href="#contact" class="hover:text-white transition">Contact</a></li>
+      </ul>
+
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="relative flex flex-col items-center text-center mt-8 md:mt-12 mb-12 px-4 overflow-hidden min-h-screen justify-between py-0" style="background: url('assets/images/hero-bg.png') center/cover no-repeat; height: 100vh;">
+    <div class="absolute inset-0 bg-black/40 pointer-events-none"></div>
+    <div class="absolute inset-0 pointer-events-none" style="background: url('assets/images/noise.png') repeat; opacity: 0.18;"></div>
+    <div class="relative z-10 w-full flex flex-col items-center justify-between h-full py-16">
+      <div class="flex-none"></div>
+      <div class="flex flex-col justify-center items-center">
+        <h1 class="text-[3.5rem] md:text-[5rem] lg:text-[5.5rem] font-semibold leading-none mb-4 tracking-tight mt-0 pt-0">
+          <span class="bg-gradient-to-b from-white to-white/70 bg-clip-text text-transparent" style="background-image: linear-gradient(#FFFFFF, #FFFFFFB3); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">Driving Tomorrow's<br>
+          Growth</span>
+        </h1>
+        <div class="flex items-center justify-center mb-10">
+          <span class="font-caslon-italic text-4xl md:text-5xl text-gray-300">with Today's</span>
+          <img src="assets/images/hero-mask-image.png" alt="AI" class="h-16 w-32 md:h-20 md:w-48 mx-4 rounded-[90px] object-cover" style="margin-bottom: -1.5rem; margin-top: -1.5rem;">
+          <span class="font-caslon-italic italic text-4xl md:text-5xl text-gray-300">AI</span>
+          <span class="ml-2 text-4xl md:text-5xl text-gray-300">✦</span>
+        </div>
+        <p class="text-gray-300 max-w-xl mx-auto mb-10 text-sm font-medium">
+          Transform your ideas into reality with our AI-powered development platform.<br>
+          We help entrepreneurs and businesses build custom MVPs and applications in record time.
+        </p>
+        <a href="#contact" class="mt-2 mb-0 px-5 py-2 rounded-full bg-white text-black font-semibold hover:bg-gray-200 transition text-sm md:text-base inline-flex items-center gap-4">
+          <span class="relative flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+          </span>
+          Get Your MVP
+        </a>
+      </div>
+      <!-- Infinite Logo Marquee -->
+      <div class="w-full flex flex-col items-center mt-0 mb-4">
+        <div class="flex items-center w-full max-w-6xl mx-auto">
+          <div class="text-white text-base font-medium whitespace-nowrap mr-8" style="min-width:160px;">Some Of Our Clients</div>
+          <div class="relative flex-1 overflow-hidden">
+            <div class="marquee flex items-center space-x-16 animate-marquee">
+              <img src="assets/laravel.svg" alt="Laravel" class="h-8 grayscale opacity-90">
+              <img src="assets/lilly.svg" alt="Lilly" class="h-8 grayscale opacity-90">
+              <img src="assets/openai.svg" alt="OpenAI" class="h-8 grayscale opacity-90">
+              <img src="assets/nvidia.svg" alt="Nvidia" class="h-8 grayscale opacity-90">
+              <img src="assets/column.svg" alt="Column" class="h-8 grayscale opacity-90">
+              <!-- Repeat for smooth loop -->
+              <img src="assets/laravel.svg" alt="Laravel" class="h-8 grayscale opacity-90">
+              <img src="assets/lilly.svg" alt="Lilly" class="h-8 grayscale opacity-90">
+              <img src="assets/openai.svg" alt="OpenAI" class="h-8 grayscale opacity-90">
+              <img src="assets/nvidia.svg" alt="Nvidia" class="h-8 grayscale opacity-90">
+              <img src="assets/column.svg" alt="Column" class="h-8 grayscale opacity-90">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <style>
+      @keyframes marquee {
+        0% { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
+      .animate-marquee {
+        animation: marquee 30s linear infinite;
+        min-width: 200%;
+      }
+      .marquee {
+        width: max-content;
+      }
+    </style>
+  </section>
+
+  <!-- Trusted By Section -->
+  <!-- Trusted by section removed as requested -->
+
+  <div class="site-container">
+  <!-- What Makes Us Different Section - Bento Box Style -->
+  <section id="features" class="w-full flex flex-col items-center mb-16 px-4">
+    <h2 class="italic text-4xl md:text-6xl lg:text-7xl text-gray-200 mb-10 font-light">What makes us different<span class="text-lg md:text-xl">✦</span></h2>
+    
+    <!-- Modern Bento Box Layout Container -->
+    <div class="bento-container mx-auto px-4 md:px-8 lg:px-16">
+      <!-- Square Bento Box Grid -->
+      <section class="bento">
+        <!-- Box 1: Large Square (100% Customizable) -->
+        <article class="bento-item bg-gray-900/90 border border-gray-800 rounded-2xl p-6 flex flex-col items-center justify-center text-center">
+          <div class="mb-6">
+            <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24"><title>grape</title><g fill="#ffffff" stroke-linejoin="round" stroke-linecap="round"><path fill="none" stroke="#ffffff" stroke-width="1" stroke-miterlimit="10" d="M12,5c-0.2-2,0.5-3.4,2-4" stroke-linejoin="round" stroke-linecap="round"></path> <circle fill="none" stroke="#ffffff" stroke-width="1" stroke-linecap="round" stroke-miterlimit="10" cx="12" cy="20" r="3" stroke-linejoin="round"></circle> <circle fill="none" stroke="#ffffff" stroke-width="1" stroke-linecap="round" stroke-miterlimit="10" cx="12" cy="8" r="3" stroke-linejoin="round"></circle> <circle fill="none" stroke="#ffffff" stroke-width="1" stroke-linecap="round" stroke-miterlimit="10" cx="6" cy="8" r="3" stroke-linejoin="round"></circle> <circle fill="none" stroke="#ffffff" stroke-width="1" stroke-linecap="round" stroke-miterlimit="10" cx="18" cy="8" r="3" stroke-linejoin="round"></circle> <circle fill="none" stroke="#ffffff" stroke-width="1" stroke-linecap="round" stroke-miterlimit="10" cx="9" cy="14" r="3" stroke-linejoin="round"></circle> <circle fill="none" stroke="#ffffff" stroke-width="1" stroke-linecap="round" stroke-miterlimit="10" cx="15" cy="14" r="3" stroke-linejoin="round"></circle></g></svg>
+          </div>
+          <div class="w-24 h-24 rounded-full bg-black/40 flex items-center justify-center mb-1">
+            <div class="text-white text-4xl font-bold">100%</div>
+          </div>
+          <div class="font-bold text-white text-2xl">Customizable</div>
+        </article>
+        
+        <!-- Box 2: Top Middle (Secure by default) -->
+        <article class="bento-item bg-gray-900/90 border border-gray-800 rounded-2xl p-6 flex flex-col items-center justify-center text-center">
+          <div class="w-24 h-24 rounded-full bg-black/40 flex items-center justify-center mb-4">
+            <img src="assets/feature2.svg" alt="Secure" class="h-12" onerror="this.src='data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2250%22 height=%2250%22%3E%3Cpath d=%22M25,10 C16,10 10,16 10,25 C10,34 16,40 25,40 C34,40 40,34 40,25 C40,16 34,10 25,10 Z M25,15 C31,15 35,19 35,25 C35,31 31,35 25,35 C19,35 15,31 15,25 C15,19 19,15 25,15 Z M25,20 C22,20 20,22 20,25 C20,28 22,30 25,30 C28,30 30,28 30,25 C30,22 28,20 25,20 Z%22 fill=%22white%22/%3E%3C/svg%3E'">
+          </div>
+          <div class="font-bold text-white text-2xl mb-1">Secure by default</div>
+          <div class="text-gray-400 text-sm mt-2">Provident fugit and vero voluptate.</div>
+        </article>
+        
+        <!-- Box 3: Top Right (Faster than light) -->
+        <article class="bento-item bg-gray-900/90 border border-gray-800 rounded-2xl p-6 flex flex-col items-center justify-center text-center">
+          <div class="w-16 h-1 bg-white mb-6"></div>
+          <div class="font-bold text-white text-2xl mb-1">Faster than light</div>
+          <div class="text-gray-400 text-sm mt-2">Provident fugit vero voluptate.</div>
+        </article>
+        
+        <!-- Box 4: Bottom Left (with chart) -->
+        <article class="bento-item bg-gray-900/90 border border-gray-800 rounded-2xl p-6">
+          <div class="flex h-full">
+            <div class="flex flex-col justify-center">
+              <div class="w-16 h-16 rounded-full bg-black/40 flex items-center justify-center mb-4">
+                <img src="assets/feature3.svg" alt="Fast" class="h-8" onerror="this.src='data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2240%22 height=%2240%22%3E%3Cpath d=%22M8,8 L32,8 L32,32 L8,32 Z%22 stroke=%22white%22 stroke-width=%222%22 fill=%22none%22/%3E%3C/svg%3E'">
+              </div>
+              <div class="font-bold text-white text-2xl mb-2">Faster than light</div>
+              <div class="text-gray-400 text-sm">Provident fugit vero voluptate.</div>
+            </div>
+            <div class="ml-auto self-end">
+              <img src="assets/images/chart.png" alt="Chart" class="w-32 h-24 object-contain opacity-70" onerror="this.src='data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22100%22 height=%2260%22%3E%3Cpath d=%22M10,50 L20,30 L30,40 L40,20 L50,25 L60,15 L70,35 L80,10 L90,30%22 stroke=%22white%22 stroke-width=%222%22 fill=%22none%22/%3E%3C/svg%3E'">
+            </div>
+          </div>
+        </article>
+        
+        <!-- Box 5: Bottom Right (with avatars) -->
+        <article class="bento-item bg-gray-900/90 border border-gray-800 rounded-2xl p-6">
+          <div class="flex h-full">
+            <div class="flex flex-col justify-center">
+              <div class="w-16 h-16 rounded-full bg-black/40 flex items-center justify-center mb-4">
+                <img src="assets/feature4.svg" alt="Safe" class="h-8" onerror="this.src='data:image/svg+xml;charset=utf-8,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%2240%22 height=%2240%22%3E%3Cpath d=%22M20,8 C12,8 8,12 8,20 C8,28 12,32 20,32 C28,32 32,28 32,20 C32,12 28,8 20,8 Z%22 stroke=%22white%22 stroke-width=%222%22 fill=%22none%22/%3E%3C/svg%3E'">
+              </div>
+              <div class="font-bold text-white text-2xl mb-2">Keep your loved ones safe</div>
+              <div class="text-gray-400 text-sm">Voluptate. magnam magni doloribus.</div>
+            </div>
+            <div class="ml-auto self-center">
+              <div class="flex flex-col space-y-3">
+                <div class="flex items-center">
+                  <div class="w-8 h-8 rounded-full bg-gray-700 overflow-hidden mr-2">
+                    <img src="assets/images/avatar1.png" alt="User" class="w-full h-full object-cover" onerror="this.style.display='none'">
+                  </div>
+                  <span class="text-xs text-gray-400 bg-black/30 px-2 py-1 rounded">Likeur</span>
+                </div>
+                <div class="flex items-center">
+                  <div class="w-8 h-8 rounded-full bg-gray-700 overflow-hidden mr-2">
+                    <img src="assets/images/avatar2.png" alt="User" class="w-full h-full object-cover" onerror="this.style.display='none'">
+                  </div>
+                  <span class="text-xs text-gray-400 bg-black/30 px-2 py-1 rounded">M. Irung</span>
+                </div>
+                <div class="flex items-center">
+                  <div class="w-8 h-8 rounded-full bg-gray-700 overflow-hidden mr-2">
+                    <img src="assets/images/avatar3.png" alt="User" class="w-full h-full object-cover" onerror="this.style.display='none'">
+                  </div>
+                  <span class="text-xs text-gray-400 bg-black/30 px-2 py-1 rounded">B. Ng</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </article>
+      </section>
+    </div>
+    
+    <style>
+      /* Modern Bento Box CSS */
+      .bento-container {
+        max-width: 900px;
+        padding: 2rem;
+      }
+      
+      .bento {
+        --bento-unit: minmax(0, 1fr);
+        --bento-gap: 1rem;
+        --bento-radius: 1rem;
+        
+        display: grid;
+        grid-template-columns: repeat(4, var(--bento-unit));
+        grid-template-rows: repeat(4, var(--bento-unit));
+        grid-template-areas:
+          "large large top-middle top-middle"
+          "large large top-right top-right"
+          "bottom-left bottom-left bottom-right bottom-right"
+          "bottom-left bottom-left bottom-right bottom-right";
+        gap: var(--bento-gap);
+        width: 100%;
+        aspect-ratio: 1 / 1; /* Make the container square */
+        margin: 0 auto;
+        max-width: 800px;
+      }
+      
+      .bento-item {
+        position: relative;
+        border-radius: var(--bento-radius);
+        transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+        min-height: 0; /* Fix for Firefox */
+        overflow: hidden;
+      }
+      
+      .bento-item:hover {
+        transform: translateY(-0.25rem);
+        box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+      }
+      
+      /* Assign grid areas to each item */
+      .bento-item:nth-child(1) {
+        grid-area: large;
+      }
+      
+      .bento-item:nth-child(2) {
+        grid-area: top-middle;
+      }
+      
+      .bento-item:nth-child(3) {
+        grid-area: top-right;
+      }
+      
+      .bento-item:nth-child(4) {
+        grid-area: bottom-left;
+      }
+      
+      .bento-item:nth-child(5) {
+        grid-area: bottom-right;
+      }
+      
+      /* Responsive adjustments */
+      @media (max-width: 768px) {
+        .bento {
+          grid-template-columns: repeat(2, var(--bento-unit));
+          grid-template-rows: repeat(6, var(--bento-unit));
+          grid-template-areas:
+            "large large"
+            "large large"
+            "top-middle top-right"
+            "top-middle top-right"
+            "bottom-left bottom-left"
+            "bottom-right bottom-right";
+          aspect-ratio: 2/3; /* Adjust aspect ratio for tablet */
+        }
+      }
+      
+      @media (max-width: 480px) {
+        .bento {
+          grid-template-columns: 1fr;
+          grid-template-rows: auto;
+          grid-template-areas:
+            "large"
+            "top-middle"
+            "top-right"
+            "bottom-left"
+            "bottom-right";
+          aspect-ratio: auto; /* Remove aspect ratio constraint for mobile */
+          gap: 1.5rem;
+        }
+        
+        .bento-item {
+          min-height: 200px;
+        }
+      }
+    </style>
+  </section>
+
+  <!-- Process/Steps Section -->
+  <section class="w-full flex flex-col items-center mb-16 px-4">
+    <h2 class="text-xl text-white font-semibold mb-10">Turn your vision into reality</h2>
+    <div class="flex flex-col md:flex-row justify-center gap-8 w-full max-w-4xl">
+      <div class="flex flex-col items-center text-center flex-1">
+        <div class="h-10 w-10 flex items-center justify-center rounded-full bg-gray-800 text-white font-bold mb-2 border border-gray-700">01</div>
+        <div class="font-semibold mb-1">Share Your Vision</div>
+        <div class="text-gray-400 text-sm">Tell us about your idea, goals, and needs. Our AI and experts will help you define a winning product strategy.</div>
+      </div>
+      <div class="flex flex-col items-center text-center flex-1">
+        <div class="h-10 w-10 flex items-center justify-center rounded-full bg-gray-800 text-white font-bold mb-2 border border-gray-700">02</div>
+        <div class="font-semibold mb-1">AI-Powered Development</div>
+        <div class="text-gray-400 text-sm">Our engineers with AI tools build your solution fast, with continuous refinement based on your feedback.</div>
+      </div>
+      <div class="flex flex-col items-center text-center flex-1">
+        <div class="h-10 w-10 flex items-center justify-center rounded-full bg-gray-800 text-white font-bold mb-2 border border-gray-700">03</div>
+        <div class="font-semibold mb-1">Launch & Scale</div>
+        <div class="text-gray-400 text-sm">Get your MVP live and start growing. We support you with enhancements, scaling, and optimization.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio/Latest Work Section -->
+  <section class="w-full flex flex-col items-center mb-16 px-4">
+    <h2 class="text-xl text-white font-semibold mb-8">Our Latest Work <span class='text-xs'>✦</span></h2>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-4 w-full max-w-3xl">
+      <img src="assets/work1.jpg" alt="Work 1" class="rounded-lg border border-gray-800 bg-gray-900 object-cover aspect-[4/3]">
+      <img src="assets/work2.jpg" alt="Work 2" class="rounded-lg border border-gray-800 bg-gray-900 object-cover aspect-[4/3]">
+      <img src="assets/work3.jpg" alt="Work 3" class="rounded-lg border border-gray-800 bg-gray-900 object-cover aspect-[4/3]">
+      <img src="assets/work4.jpg" alt="Work 4" class="rounded-lg border border-gray-800 bg-gray-900 object-cover aspect-[4/3]">
+      <img src="assets/work5.jpg" alt="Work 5" class="rounded-lg border border-gray-800 bg-gray-900 object-cover aspect-[4/3]">
+      <img src="assets/work6.jpg" alt="Work 6" class="rounded-lg border border-gray-800 bg-gray-900 object-cover aspect-[4/3]">
+    </div>
+  </section>
+
+  <!-- Testimonials & Stats Section -->
+  <section class="w-full flex flex-col items-center mb-16 px-4">
+    <h2 class="text-xl text-white font-semibold mb-8">What our customers are saying <span class='text-xs'>✦</span></h2>
+    <div class="flex flex-col md:flex-row gap-8 w-full max-w-4xl items-start justify-center">
+      <!-- Testimonial Card -->
+      <div class="flex-1 bg-gray-900 border border-gray-800 rounded-xl p-6 flex flex-col items-start max-w-md mx-auto">
+        <div class="flex items-center mb-3">
+          <span class="text-yellow-400 text-lg mr-2">★★★★★</span>
+          <span class="text-gray-400 text-xs">5.0</span>
+        </div>
+        <div class="text-gray-200 mb-4 text-sm italic">“Kodeka turned our vision into a working product in just weeks. Their AI-powered development process is truly next-level. Highly recommend!”</div>
+        <div class="flex items-center mt-auto">
+          <img src="assets/avatar1.png" alt="Customer" class="h-8 w-8 rounded-full border border-gray-700 mr-3">
+          <div>
+            <div class="font-semibold text-white text-sm">Alex Chen</div>
+            <div class="text-xs text-gray-400">Founder, Startup Inc.</div>
+          </div>
+        </div>
+      </div>
+      <!-- Stats -->
+      <div class="flex-1 flex flex-row md:flex-col gap-8 md:gap-4 justify-center items-center md:items-start mt-8 md:mt-0">
+        <div class="flex flex-col items-center md:items-start">
+          <div class="text-3xl font-bold text-white">4.9<span class="text-yellow-400 ml-1">★</span></div>
+          <div class="text-xs text-gray-400">Average Rating</div>
+        </div>
+        <div class="flex flex-col items-center md:items-start">
+          <div class="text-3xl font-bold text-white">5K+</div>
+          <div class="text-xs text-gray-400">Customers</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section id="pricing" class="w-full flex flex-col items-center mb-16 px-4">
+    <h2 class="text-xl text-white font-semibold mb-8">Adaptable pricing choices for your diverse needs <span class='text-xs'>✦</span></h2>
+    <div class="flex flex-col md:flex-row gap-6 w-full max-w-4xl">
+      <!-- MVP Starter -->
+      <div class="flex-1 bg-gray-900 border border-gray-800 rounded-xl p-6 flex flex-col items-center text-center">
+        <div class="text-lg font-bold text-white mb-1">MVP Starter</div>
+        <div class="text-3xl font-bold text-white mb-2">$2999<span class="text-base font-normal text-gray-400">/month</span></div>
+        <ul class="text-gray-400 text-sm mb-4 space-y-1">
+          <li>Fastest development</li>
+          <li>AI-powered features</li>
+          <li>Best for validation</li>
+          <li>Basic AI automations</li>
+          <li>1x AI consultation</li>
+        </ul>
+        <a href="#contact" class="mt-auto px-5 py-2 rounded-full bg-white text-black font-semibold hover:bg-gray-200 transition">Get Started</a>
+      </div>
+      <!-- Scale Up (Best Value) -->
+      <div class="flex-1 bg-gray-900 border-2 border-blue-500 rounded-xl p-6 flex flex-col items-center text-center relative shadow-lg">
+        <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-blue-500 text-white text-xs px-3 py-1 rounded-full font-semibold shadow">Best Value</div>
+        <div class="text-lg font-bold text-white mb-1">Scale Up</div>
+        <div class="text-3xl font-bold text-white mb-2">$4999<span class="text-base font-normal text-gray-400">/month</span></div>
+        <ul class="text-gray-400 text-sm mb-4 space-y-1">
+          <li>Advanced AI automations</li>
+          <li>Growth-focused features</li>
+          <li>Performance optimization</li>
+          <li>2x AI consultations</li>
+          <li>Priority support</li>
+        </ul>
+        <a href="#contact" class="mt-auto px-5 py-2 rounded-full bg-blue-500 text-white font-semibold hover:bg-blue-600 transition">Get Started</a>
+      </div>
+      <!-- Custom -->
+      <div class="flex-1 bg-gray-900 border border-gray-800 rounded-xl p-6 flex flex-col items-center text-center">
+        <div class="text-lg font-bold text-white mb-1">Custom</div>
+        <div class="text-3xl font-bold text-white mb-2">Contact</div>
+        <ul class="text-gray-400 text-sm mb-4 space-y-1">
+          <li>Tailored for enterprise</li>
+          <li>Unlimited AI features</li>
+          <li>Dedicated AI experts</li>
+          <li>Full scalability</li>
+          <li>Direct support line</li>
+        </ul>
+        <a href="#contact" class="mt-auto px-5 py-2 rounded-full bg-gray-800 text-white font-semibold border border-gray-600 hover:bg-gray-700 transition">Contact Us</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section id="faq" class="w-full flex flex-col items-center mb-16 px-4">
+    <h2 class="text-xl text-white font-semibold mb-8">Frequently Asked Questions <span class='text-xs'>✦</span></h2>
+    <div class="w-full max-w-2xl space-y-4">
+      <div class="bg-gray-900 border border-gray-800 rounded-lg">
+        <button class="w-full flex justify-between items-center px-6 py-4 text-left text-white font-semibold focus:outline-none faq-toggle">
+          <span>How does your AI-powered development work?</span>
+          <svg class="w-5 h-5 ml-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="px-6 pb-4 text-gray-400 text-sm hidden">We use a combination of expert engineers and AI tools to deliver your product faster and smarter than traditional agencies.</div>
+      </div>
+      <div class="bg-gray-900 border border-gray-800 rounded-lg">
+        <button class="w-full flex justify-between items-center px-6 py-4 text-left text-white font-semibold focus:outline-none faq-toggle">
+          <span>Is my data secure?</span>
+          <svg class="w-5 h-5 ml-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="px-6 pb-4 text-gray-400 text-sm hidden">Yes, we follow industry best practices for data security and privacy.</div>
+      </div>
+      <div class="bg-gray-900 border border-gray-800 rounded-lg">
+        <button class="w-full flex justify-between items-center px-6 py-4 text-left text-white font-semibold focus:outline-none faq-toggle">
+          <span>How long does it take to build an MVP?</span>
+          <svg class="w-5 h-5 ml-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="px-6 pb-4 text-gray-400 text-sm hidden">Most MVPs are delivered in 2-6 weeks, depending on complexity.</div>
+      </div>
+      <div class="bg-gray-900 border border-gray-800 rounded-lg">
+        <button class="w-full flex justify-between items-center px-6 py-4 text-left text-white font-semibold focus:outline-none faq-toggle">
+          <span>What technologies do you use?</span>
+          <svg class="w-5 h-5 ml-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="px-6 pb-4 text-gray-400 text-sm hidden">We use the latest web, cloud, and AI technologies tailored to your needs.</div>
+      </div>
+      <div class="bg-gray-900 border border-gray-800 rounded-lg">
+        <button class="w-full flex justify-between items-center px-6 py-4 text-left text-white font-semibold focus:outline-none faq-toggle">
+          <span>How do I get started?</span>
+          <svg class="w-5 h-5 ml-2 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+        </button>
+        <div class="px-6 pb-4 text-gray-400 text-sm hidden">Contact us to schedule a free consultation and get your project moving.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Booking/Calendar Section -->
+  <section class="w-full flex flex-col items-center mb-16 px-4">
+    <h2 class="text-xl text-white font-semibold mb-4">Book a Meeting <span class='text-xs'>✦</span></h2>
+    <div class="text-gray-400 mb-8">Schedule a time to discuss your needs.</div>
+    <div class="w-full max-w-2xl bg-gray-900 border border-gray-800 rounded-xl p-6 flex flex-col items-center">
+      <!-- Placeholder calendar UI -->
+      <div class="w-full">
+        <div class="flex justify-between items-center mb-4">
+          <div class="text-white font-semibold">May 2024</div>
+          <button class="text-gray-400 hover:text-white">Next &rarr;</button>
+        </div>
+        <div class="grid grid-cols-7 gap-2 text-center text-gray-400 text-xs mb-2">
+          <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+        </div>
+        <div class="grid grid-cols-7 gap-2 text-center">
+          <div></div><div></div><div></div><div>1</div><div>2</div><div>3</div><div>4</div>
+          <div>5</div><div>6</div><div>7</div><div>8</div><div>9</div><div>10</div><div>11</div>
+          <div>12</div><div>13</div><div>14</div><div>15</div><div>16</div><div>17</div><div>18</div>
+          <div>19</div><div>20</div><div>21</div><div>22</div><div>23</div><div>24</div><div>25</div>
+          <div>26</div><div>27</div><div>28</div><div>29</div><div>30</div><div>31</div><div></div>
+        </div>
+      </div>
+      <div class="mt-6 w-full flex flex-col md:flex-row gap-4">
+        <button class="flex-1 bg-blue-500 text-white py-2 rounded-lg font-semibold hover:bg-blue-600 transition">10:00 AM</button>
+        <button class="flex-1 bg-blue-500 text-white py-2 rounded-lg font-semibold hover:bg-blue-600 transition">2:00 PM</button>
+        <button class="flex-1 bg-blue-500 text-white py-2 rounded-lg font-semibold hover:bg-blue-600 transition">4:00 PM</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="w-full py-8 px-4 bg-black border-t border-gray-800 text-gray-500 text-xs">
+    <div class="max-w-4xl mx-auto flex flex-col md:flex-row justify-between items-center gap-2">
+      <div class="mb-2 md:mb-0">&copy; 2024 Kodeka Digital. All rights reserved.</div>
+      <div class="flex gap-4">
+        <a href="#" class="hover:text-white">Privacy</a>
+        <a href="#" class="hover:text-white">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // FAQ accordion toggle
+      document.querySelectorAll('.faq-toggle').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const content = btn.parentElement.querySelector('div');
+          content.classList.toggle('hidden');
+          btn.querySelector('svg').classList.toggle('rotate-180');
+        });
+      });
+
+
+    });
+  </script>
+  <!-- JavaScript for navbar scroll effect -->
+  <script>
+
+  </script>
+</div> <!-- End of site-container -->
+</div> <!-- End of top spacing -->
+</body>
+</html>
