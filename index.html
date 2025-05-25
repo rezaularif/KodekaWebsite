@@ -42,6 +42,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
   
+  <!-- Development mode flag -->
+  <script>
+    // Set to true during development, false in production
+    window.IS_DEVELOPMENT = false;
+  </script>
+  
   <style>
     body { font-family: 'Inter', sans-serif; }
     .pricing-card { height: 500px; display: flex; flex-direction: column; }
@@ -1125,5 +1131,8 @@
     // Load non-critical CSS
     loadCSS('src/performance.css');
   </script>
+  <!-- Load site-specific scripts at the end for faster page load -->
+  <script src="gsap-animations.js" defer></script>
+  <script src="stagewise-toolbar.js" defer></script>
 </body>
 </html>
