@@ -99,20 +99,8 @@ document.addEventListener('DOMContentLoaded', function() {
             {
                 selector: ".pricing-card",
                 trigger: ".pricing-grid",
-                props: { 
-                    opacity: 1, 
-                    y: 0, 
-                    scale: 1,
-                    transformStyle: 'preserve-3d',
-                    backfaceVisibility: 'hidden',
-                    willChange: 'transform, opacity'
-                },
-                options: { 
-                    duration: 0.6, 
-                    ease: "power3.out", 
-                    stagger: 0.15,
-                    force3D: true
-                }
+                props: { opacity: 1, y: 0, scale: 1 },
+                options: { duration: 0.8, ease: "back.out(1.1)", stagger: 0.1, clearProps: "transform" }
             }
         ];
 
@@ -121,30 +109,13 @@ document.addEventListener('DOMContentLoaded', function() {
                 ...anim.props,
                 scrollTrigger: {
                     trigger: anim.trigger,
-                    start: "top 85%",
-                    toggleActions: "play none none none",
+                    start: "top 80%",
+                    toggleActions: "play none none reverse",
                     markers: false,
                     invalidateOnRefresh: true
                 },
-                ...anim.options,
-                force3D: true,
-                willChange: 'opacity, transform'
+                ...anim.options
             });
-        });
-
-        // Pricing cards animation
-        gsap.to(".pricing-card", {
-            scrollTrigger: {
-                trigger: ".pricing-grid",
-                start: "top 80%",
-                toggleActions: "play none none reverse"
-            },
-            opacity: 1,
-            y: 0,
-            scale: 1,
-            duration: 0.8,
-            ease: "back.out(1.1)",
-            stagger: 0.1
         });
 
         // FAQ items animation
