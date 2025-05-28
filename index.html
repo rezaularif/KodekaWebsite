@@ -315,14 +315,17 @@
     <style>
       @keyframes marquee {
         0% { transform: translateX(0); }
-        100% { transform: translateX(-50%); }
+        100% { transform: translateX(calc(-100% - 4rem)); } /* Adjust -4rem based on your space-x-16 (16 * 0.25rem = 4rem) */
       }
       .animate-marquee {
-        animation: marquee 30s linear infinite;
-        min-width: 200%;
+        animation: marquee 20s linear infinite;
+        display: flex;
+        width: fit-content;
       }
       .marquee {
-        width: max-content;
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
       }
       
       @keyframes shine {
