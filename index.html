@@ -90,6 +90,47 @@
       opacity: 1;
       pointer-events: auto;
     }
+    /* Menu hover effect for nav links */
+    .desktop-menu a, #mobile-menu a {
+      text-decoration: none;
+      position: relative;
+      padding: 0 0.45em;
+      z-index: 1;
+    }
+    .desktop-menu a::before,
+    .desktop-menu a::after,
+    #mobile-menu a::before,
+    #mobile-menu a::after {
+      content: "";
+      position: absolute;
+      display: block;
+      border: 0 solid transparent;
+      width: 0%;
+      height: 0%;
+      transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    }
+    .desktop-menu a::after,
+    #mobile-menu a::after {
+      top: 0;
+      left: 0;
+      border-top: 2px solid transparent;
+      border-left: 2px solid transparent;
+    }
+    .desktop-menu a::before,
+    #mobile-menu a::before {
+      right: 0;
+      bottom: 0;
+      border-bottom: 2px solid transparent;
+      border-right: 2px solid transparent;
+    }
+    .desktop-menu a:hover::before,
+    .desktop-menu a:hover::after,
+    #mobile-menu a:hover::before,
+    #mobile-menu a:hover::after {
+      width: 12px;
+      height: 12px;
+      border-color: #A6A6A6;
+    }
     
     /* Mobile menu styles */
     @media (max-width: 768px) {
@@ -180,6 +221,16 @@
       a, button {
         transition: all 0.3s ease;
       }
+    
+    /* Pulse animation for button icon */
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.18); opacity: 0.7; }
+    }
+    .button-icon {
+      animation: pulse 1.2s infinite cubic-bezier(0.4,0,0.2,1);
+      transform-origin: center;
+    }
   </style>
   <!-- Critical CSS for initial page load -->
   <style>
@@ -214,7 +265,7 @@
         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 318 350" class="text-white fill-white"><g><path d="M34.626,1.506c13.211,-3.418 27.978,-0.99 39.107,7.004c10.332,7.068 17.593,18.493 19.611,30.856c1.144,6.349 0.758,12.813 0.797,19.226c-0.039,16.269 -0.116,32.539 -0.077,48.809c0.09,6.811 -1.671,13.828 -5.912,19.264c-4.549,5.783 -10.127,10.615 -15.254,15.846c-11.335,11.36 -22.927,22.451 -34.493,33.58c-3.265,3.059 -6.619,6.272 -10.885,7.878c-8.508,3.239 -18.93,0.129 -24.264,-7.235c-2.634,-3.663 -3.213,-8.289 -3.135,-12.684c-0.026,-36.01 -0.129,-72.019 -0.09,-108.042c0.051,-7.273 -0.502,-14.727 1.567,-21.808c4.216,-15.73 17.401,-28.453 33.028,-32.694Z" fill="white"/><path d="M186.131,34.894c40.52,-0.604 81.079,0.064 121.612,-0.026c2.943,0.206 6.837,-0.745 8.584,2.365c2.918,3.572 -0.09,7.865 -2.853,10.409c-35.431,36.1 -71.659,71.415 -107.321,107.283c-9.33,8.688 -17.786,18.3 -27.489,26.577c-7.467,6.387 -19.187,3.688 -25.51,-3.033c-14.393,-14.278 -29.198,-28.183 -43.193,-42.834c-7.107,-6.888 -7.017,-18.93 -0.861,-26.358c4.408,-5.449 9.754,-10.011 14.689,-14.946c18.943,-18.75 37.898,-37.474 57.124,-55.916c1.632,-1.272 3.136,-3.02 5.218,-3.521Z" fill="white"/><path d="M12.612,197.939c7.672,-2.622 16.604,-0.81 22.67,4.549c15.768,14.65 30.92,29.982 46.406,44.928c7.865,7.3 12.479,17.735 12.928,28.427c0.283,8.135 -0.077,16.283 -0.27,24.431c-0.257,14.817 -6.759,29.853 -18.75,38.913c-15.434,12.543 -39.132,13.327 -55.337,1.774c-12.518,-8.919 -20.601,-24.122 -20.126,-39.582c-0.038,-29.057 -0.077,-58.127 -0.025,-87.184c-0.592,-7.672 5.834,-13.763 12.504,-16.256Z" fill="white"/><path d="M162.613,197.54c7.428,-2.365 15.203,0.887 20.318,6.374c42.242,41.279 83.379,83.688 125.583,125.031c2.789,2.789 5.834,5.372 8.16,8.585c2.365,4.279 -1.323,10.371 -6.297,9.844c-34.3,0.372 -68.6,0.115 -102.9,0.27c-6.387,-0.103 -12.8,0.167 -19.162,-0.463c-2.274,0.013 -3.919,-1.632 -5.526,-2.969c-9.266,-8.302 -17.606,-17.542 -26.641,-26.075c-14.252,-14.021 -28.581,-27.952 -42.936,-41.857c-4.948,-4.87 -9.06,-11.412 -8.289,-18.621c0.54,-7.801 6.387,-13.61 11.605,-18.815c9.831,-9.497 19.598,-19.045 29.519,-28.453c5.025,-4.806 9.716,-10.628 16.566,-12.851Z" fill="white"/></g></svg>
       </span>
       <!-- Desktop Navigation - unchanged -->
-      <ul class="desktop-menu hidden md:flex space-x-8 text-sm text-gray-300 font-medium">
+      <ul class="desktop-menu hidden md:flex space-x-4 text-sm text-gray-300 font-medium">
         <li><a href="#features" class="hover:text-white transition">Features</a></li>
         <li><a href="#process" class="hover:text-white transition">Process</a></li>
         <li><a href="#work" class="hover:text-white transition">Work</a></li>
@@ -237,7 +288,7 @@
     
     <!-- Mobile menu (hidden by default) -->
     <div id="mobile-menu" class="md:hidden hidden px-8 py-4 bg-black/80 backdrop-blur-lg rounded-b-2xl border-t border-gray-800">
-      <ul class="flex flex-col space-y-4 text-sm text-gray-300 font-medium">
+      <ul class="flex flex-col space-y-2 text-sm text-gray-300 font-medium">
         <li><a href="#features" class="block py-2 hover:text-white transition">Features</a></li>
         <li><a href="#process" class="block py-2 hover:text-white transition">Process</a></li>
         <li><a href="#work" class="block py-2 hover:text-white transition">Work</a></li>
@@ -254,25 +305,25 @@
     <div class="relative z-10 w-full flex flex-col items-center justify-between h-full py-16">
       <div class="flex-none"></div>
       <div class="flex flex-col justify-center items-center" style="color: white;">
-        <h1 style="font-size: 5rem; font-weight: bold; margin-bottom: 0.5rem; font-family: 'Inter', sans-serif; line-height: 94.6px; letter-spacing: -2.15px; background-image: linear-gradient(#FFFFFF, #FFFFFFB3); -webkit-background-clip: text; background-clip: text; color: transparent;">Driving Tomorrow's<br>Growth</h1>
+        <h1 style="font-size: 5rem; font-weight: bold; margin-bottom: 0.5rem; font-family: 'Inter', sans-serif; line-height: 94.6px; letter-spacing: -2.15px; background-image: linear-gradient(rgb(246, 246, 246) 25%, rgba(246, 246, 246, 0.6)); -webkit-background-clip: text; background-clip: text; color: transparent;">Driving Tomorrow's<br>Growth</h1>
         <div style="font-size: 4rem; margin: 1.5rem 0 2.5rem; font-family: 'Instrument Serif', serif; font-style: italic; font-weight: 400; display: flex; align-items: center; justify-content: center; flex-wrap: wrap; gap: 1.5rem; line-height: 1.1; background-image: linear-gradient(#FFFFFF, #FFFFFFB3); -webkit-background-clip: text; background-clip: text; color: transparent; width: 100%; max-width: 100%;">
           <span>with Today's</span>
           <img src="assets/images/OC%2003.png" alt="AI" style="width: 120px; height: auto; border-radius: 12px; vertical-align: middle; flex-shrink: 0;">
-          <span>Ai<span style="font-size: 0.7em; vertical-align: middle; margin-left: 0.2em;">✦</span></span>
+          <span>Ai</span>
         </div>
         <p style="font-size: 0.9375rem; margin-bottom: 1.5rem; max-width: 800px; color: #e5e7eb; font-family: 'Inter', sans-serif; line-height: 1.5; opacity: 0.8; letter-spacing: 0.01em;">
           Unlock peak performance, boost efficiency, and automate workflows<br>with AI solutions tailored to your business.
         </p>
         <a href="#contact" class="button-wrapper" style="grid-column-gap: 10px; align-items: center; background-color: #3533ff; border: 2px solid #ffffff4d; border-radius: 24px; box-shadow: inset 6px 6px 12px #ffffff3d; color: white; display: inline-flex; font-size: 14px; font-weight: 500; justify-content: flex-end; line-height: 20px; padding: 6px 6px 6px 18px; text-decoration: none; margin-top: 1.5rem;">
-          <div>Get Your MVP</div>
+          <div>Book A Free Call</div>
           <div class="button-icon-wrapper" style="align-items: center; background-color: white; border-radius: 50%; display: flex; height: 26px; justify-content: center; width: 26px;">
             <div class="button-content" style="align-items: center; display: flex; flex-flow: column; height: 14px; justify-content: flex-start; overflow: hidden; width: 14px;">
               <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" class="button-icon">
                 <title>sparkle-3</title>
-                <g fill="#3533ff">
-                  <path d="M9.5 2.75L11.412 7.587L16.25 9.5L11.412 11.413L9.5 16.25L7.587 11.413L2.75 9.5L7.587 7.587L9.5 2.75Z" fill="#3533ff" fill-opacity="0.3" data-stroke="none" stroke="none"></path>
-                  <path d="M5.65799 2.99L4.39499 2.569L3.97399 1.306C3.83699 0.898 3.16199 0.898 3.02499 1.306L2.60399 2.569L1.34099 2.99C1.13699 3.058 0.998993 3.249 0.998993 3.464C0.998993 3.679 1.13699 3.87 1.34099 3.938L2.60399 4.359L3.02499 5.622C3.09299 5.826 3.28499 5.964 3.49999 5.964C3.71499 5.964 3.90599 5.826 3.97499 5.622L4.39599 4.359L5.65899 3.938C5.86299 3.87 6.00099 3.679 6.00099 3.464C6.00099 3.249 5.86199 3.058 5.65799 2.99Z" fill="#3533ff" data-stroke="none" stroke="none"></path>
-                  <path d="M9.5 2.75L11.412 7.587L16.25 9.5L11.412 11.413L9.5 16.25L7.587 11.413L2.75 9.5L7.587 7.587L9.5 2.75Z" stroke="#3533ff" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
+                <g fill="#22c55e">
+                  <path d="M9.5 2.75L11.412 7.587L16.25 9.5L11.412 11.413L9.5 16.25L7.587 11.413L2.75 9.5L7.587 7.587L9.5 2.75Z" fill="#22c55e" fill-opacity="0.3" data-stroke="none" stroke="none"></path>
+                  <path d="M5.65799 2.99L4.39499 2.569L3.97399 1.306C3.83699 0.898 3.16199 0.898 3.02499 1.306L2.60399 2.569L1.34099 2.99C1.13699 3.058 0.998993 3.249 0.998993 3.464C0.998993 3.679 1.13699 3.87 1.34099 3.938L2.60399 4.359L3.02499 5.622C3.09299 5.826 3.28499 5.964 3.49999 5.964C3.71499 5.964 3.90599 5.826 3.97499 5.622L4.39599 4.359L5.65899 3.938C5.86299 3.87 6.00099 3.679 6.00099 3.464C6.00099 3.249 5.86199 3.058 5.65799 2.99Z" fill="#22c55e" data-stroke="none" stroke="none"></path>
+                  <path d="M9.5 2.75L11.412 7.587L16.25 9.5L11.412 11.413L9.5 16.25L7.587 11.413L2.75 9.5L7.587 7.587L9.5 2.75Z" stroke="#22c55e" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none"></path>
                 </g>
               </svg>
             </div>
