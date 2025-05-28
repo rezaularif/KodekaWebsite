@@ -4,6 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Kodeka Digital - Modern Web Development & Design</title>
+  <!-- Unicorn Studio Script -->
+  <script type="text/javascript">!function(){if(!window.UnicornStudio){window.UnicornStudio={isInitialized:!1};var i=document.createElement("script");i.src="https://cdn.jsdelivr.net/gh/hiunicornstudio/unicornstudio.js@v1.4.24/dist/unicornStudio.umd.js",i.onload=function(){window.UnicornStudio.isInitialized||(UnicornStudio.init(),window.UnicornStudio.isInitialized=!0)},(document.head || document.body).appendChild(i)}}();</script>
   
   <!-- SEO Meta Tags -->
   <meta name="description" content="Kodeka Digital - We create beautiful, high-performance websites and web applications. Let's turn your vision into reality.">
@@ -255,7 +257,6 @@
       <p class="mt-4 text-gray-300">Loading...</p>
     </div>
   </div>
-  <div class="py-8"> <!-- Top spacing -->
   
   <!-- Floating navbar on scroll -->
   <nav id="main-navbar" class="glass-navbar">
@@ -299,10 +300,13 @@
   </nav>
 
   <!-- Hero Section -->
-  <section class="hero-section relative flex flex-col items-center text-center mt-8 md:mt-12 mb-12 px-4 overflow-hidden min-h-screen justify-between py-0" style="background: url('assets/images/hero-bg.png') center/cover no-repeat; height: 100vh; font-family: 'Inter', sans-serif; color: white;">
-    <div class="hero-bg absolute inset-0 bg-black/40 pointer-events-none"></div>
-    <div class="absolute inset-0 pointer-events-none" style="background: url('assets/images/noise.png') repeat; opacity: 0.18;"></div>
-    <div class="relative z-10 w-full flex flex-col items-center justify-between h-full py-16">
+  <section class="hero-section relative flex flex-col items-center text-center mt-0 mb-12 px-4 overflow-hidden min-h-screen justify-between py-0" style="min-height: 100vh; font-family: 'Inter', sans-serif; color: white; position: relative; width: 100%;">
+    <div class="absolute inset-0 w-full h-full overflow-hidden" style="z-index: -1;">
+      <div class="absolute inset-0" style="background: url('assets/images/hero-bg.png') no-repeat center center; background-size: cover;"></div>
+      <div class="absolute inset-0 bg-black/40 pointer-events-none"></div>
+      <div class="absolute inset-0 pointer-events-none" style="background: url('assets/images/noise.png') repeat; opacity: 0.18;"></div>
+    </div>
+    <div class="relative w-full flex flex-col items-center justify-between h-full py-16" style="z-index: 10;">
       <div class="flex-none"></div>
       <div class="flex flex-col justify-center items-center" style="color: white;">
         <h1 style="font-size: 5rem; font-weight: bold; margin-bottom: 0.5rem; font-family: 'Inter', sans-serif; line-height: 94.6px; letter-spacing: -2.15px; background-image: linear-gradient(rgb(246, 246, 246) 25%, rgba(246, 246, 246, 0.6)); -webkit-background-clip: text; background-clip: text; color: transparent;">Driving Tomorrow's<br>Growth</h1>
@@ -331,7 +335,7 @@
         </a>
       </div>
       <!-- Infinite Logo Marquee -->
-      <div class="hero-marquee w-full flex flex-col items-center py-4">
+        <div class="hero-marquee w-full flex flex-col items-center pt-48 pb-4">
         <div class="flex items-center w-full max-w-6xl mx-auto">
           <div class="text-gray-400 text-sm font-medium mr-8 opacity-70 leading-tight" style="min-width:140px; line-height: 1.2;">
             <div>Brands We Have</div>
