@@ -37,6 +37,17 @@ img {
   -webkit-font-smoothing: subpixel-antialiased;
 }
 
+/* Prevent FOUC on animated elements by hiding them initially */
+.hero-title, .hero-subtitle, .hero-description, .hero-cta, .hero-marquee,
+.bento-item,
+.process-step,
+.work-item,
+.testimonial-card,
+.pricing-card,
+.faq-item {
+ opacity: 0;
+}
+
 /* Optimize layout shifts */
 img, 
 video, 

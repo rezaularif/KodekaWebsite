@@ -19,10 +19,10 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Batch set initial states for better performance
     const initialStates = [
-        { selector: ".hero-title, .hero-subtitle, .hero-description, .hero-cta, .hero-marquee, .bento-item, .process-step, .work-item, .testimonial-card, .pricing-card, .faq-item", 
-          props: { opacity: 0, y: 20 } },
-        { selector: ".faq-item", props: { opacity: 0, x: -30 } },
-        { selector: ".hero-cta, .bento-item, .work-item, .pricing-card", 
+        { selector: ".hero-title, .hero-subtitle, .hero-description, .hero-cta, .hero-marquee, .bento-item, .process-step, .work-item, .testimonial-card, .pricing-card, .faq-item",
+          props: { y: 20 } },
+        { selector: ".faq-item", props: { x: -30 } },
+        { selector: ".hero-cta, .bento-item, .work-item, .pricing-card",
           props: { scale: 0.95 } }
     ];
     
